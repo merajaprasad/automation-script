@@ -21,3 +21,4 @@ sleep 5
 rm -rf $1*
 
 echo "directory removed"
+
