@@ -16,6 +16,9 @@ remove_awscli() {
       sudo rm -rf ~/.aws/
       rm -rf awscliv2.zip ./aws
       echo "### awscli is removed properly...enjoy"
+
+   else
+      echo "aws cli is not present"
    fi
 
 }
