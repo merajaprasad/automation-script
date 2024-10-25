@@ -1,6 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
+<< task
+name: create and delete directory
+task
+
 if ! cd scripts > /dev/null 2>&1; then
    echo "scripts directory is not present. hence creating"
 fi
