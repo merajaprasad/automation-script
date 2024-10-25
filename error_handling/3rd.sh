@@ -8,14 +8,14 @@ remove_awscli() {
       echo "removing awscli ....."
 
       # delete sumbolic link
-      sudo rm /usr/local/bin/aws
-      sudo rm /usr/local/bin/aws_completer
+      sudo rm /usr/bin/aws
+      sudo rm /usr/bin/aws_completer
 
       # remove installation directory
       sudo rm -rf /usr/local/aws-cli
       sudo rm -rf ~/.aws/
       rm -rf awscliv2.zip ./aws
-      echo "### awscli is removed properly...enjoy"
+      echo "### aws_cli is removed properly...enjoy"
 
    else
       echo "aws cli is not present"
