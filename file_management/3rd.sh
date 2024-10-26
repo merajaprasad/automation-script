@@ -20,25 +20,24 @@ backup_script() {
 
    DEST_DIR="/backup/html"
    TIMESTAMP=$(date +"%Y-%m-%d-%H:%M:%S")
+   BACKUP_FILE="$DEST_DIR/html_backup_$TIMESTAMP.tar.gz"
 
    # check if the destination directory exist
    if [ ! -d $DEST_DIR ]; then
       sudo mkdir -p $DEST_DIR
    else
       echo "$DEST_DIR directory already exist"
-      sleep 5
-   
+      sleep 5   
    fi
 
    # copy the files
-   echo "taking backups"
-   BACKUP_FILE="$DEST_DIR/html_backup_$TIMESTAMP.tar.gz"
+   echo "Taking Backups"
    cd /var/www/ && sudo tar -czvf "$BACKUP_FILE"  html
 
    if [ $? -eq 0 ]; then
-      echo "backup sucessful : $BACKUP_FILE "
+      echo "Backup Successful : $BACKUP_FILE "
    else
-      echo "backup faild"
+      echo "Backup Faild"
       exit 1
    fi
 }
