@@ -1,5 +1,5 @@
-# automation-script
-this repo contains shell scripts only
+# Bash-shell automation-script
+This repo contains bash shell scripts only
 
 
 ### Common set Options:
