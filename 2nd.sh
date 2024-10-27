@@ -1,3 +1,6 @@
+#!/bin/bash
+set -euo pipefail
+
 # passing the arguments during runtime
 
 << task
