@@ -1,0 +1,35 @@
+#!/bin/bash
+
+VPC_ID="vpc-3ac0fb5f"
+TARGET_GROUP_NAME="my-targets"
+LISTNER_ARN="Load-balancer-arn"
+REGION="us-east-1"
+
+
+aws elbv2 create-target-group \
+    --name ${TARGET_GROUP_NAME} \
+    --protocol HTTP \
+    --port 80 \
+    --target-type instance \
+    --vpc-id ${VPC_ID}
+
+
+# Describe Listner rules
+aws elbv2 describe-rules \
+    --listener-arn ${LISTNER_ARN}
+    --region ${REGION}
+    --query 'Rules[].Priority' \
+    --output text | tr '\t' '\n' > priority.txt
+
+
+# Create New Rule
+aws elbv2 create-rule \
+    --listener-arn ${LISTNER_ARN} \
+    --priority 5 \
+    --conditions file://conditions-pattern.json
+    --actions Type=forward,TargetGroupArn=arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067
+
+
+# Describe Rule ARN
+aws elbv2 describe-rules \
+    --rule-arns arn:aws:elasticloadbalancing:us-west-2:123456789012:listener-rule/app/my-load-balancer/50dc6c495c0c9188/f2f7dc8efc522ab2/9683b2d02a6cabee

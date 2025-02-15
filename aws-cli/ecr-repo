@@ -1,0 +1,49 @@
+#!/bin/bash
+
+REPO_NAME="aws-project/sample-repoapp"
+
+# creating ECR Repo
+
+if ! aws ecr describe-repositories --repository-name ${REPO_NAME} >/dev/null 2>&1; then
+    echo "Repostory ${REPO_NAME} is not found, hence creating...."
+
+    aws ecr create-repository --repository-name ${REPO_NAME}
+else
+    echo "Repository ${REPO_NAME} is already exist"
+fi
+
+
+# Define and applying the Lifecycle Policy
+cat <<EOF > policy.json
+{
+    "rules": [
+        {
+            "rulePriority": 1,
+            "description": "Keep only one untagged image, expire all others",
+            "selection": {
+                "tagStatus": "untagged",
+                "countType": "imageCountMoreThan",
+                "countNumber": 1
+            },
+            "action": {
+                "type": "expire"
+            }
+        }
+    ]
+}
+EOF
+
+aws ecr put-lifecycle-policy --repository-name ${REPO_NAME} --lifecycle-policy-text file://policy.json
+
+
+# List ECR Images
+aws ecr list-images --repository-name ${REPO_NAME}
+
+# Deleting ECR repository
+aws ecr delete-repository --repository-name ${REPO_NAME} --force
+
+
+
+
+
+
